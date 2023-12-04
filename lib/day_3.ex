@@ -158,6 +158,5 @@ defmodule AdventOfCode2023.Day3.Part2 do
     |> find_stars(0)
     |> Enum.map(&check_star(&1, line_length, numbers_table)) 
     |> Enum.sum()
-
   end
 end
