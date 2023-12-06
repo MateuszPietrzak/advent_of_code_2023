@@ -147,7 +147,6 @@ defmodule AdventOfCode2023.Day5.Part2 do
 
     seed_ranges
     |> get_final_ranges(transformations_list)
-    |> IO.inspect(label: "final ranges")
     |> Enum.reduce([], fn [beginning: a, end: b], acc -> acc ++ [a] ++ [b] end)
     |> Enum.min()
   end
