@@ -1,6 +1,7 @@
 defmodule AdventOfCode2023.Day2.Utility do
   def get_file do
     {:ok, file} = File.open("assets/day2.in")
+
     IO.read(file, :eof)
     |> String.split("\n", trim: true)
   end
@@ -17,14 +18,17 @@ defmodule AdventOfCode2023.Day2.Utility do
         with amount <- color |> String.trim_trailing(" red") |> String.to_integer() do
           {:red, amount}
         end
+
       String.ends_with?(color, "green") ->
         with amount <- color |> String.trim_trailing(" green") |> String.to_integer() do
           {:green, amount}
         end
+
       String.ends_with?(color, "blue") ->
         with amount <- color |> String.trim_trailing(" blue") |> String.to_integer() do
           {:blue, amount}
         end
+
       true ->
         {:error, "no color matched!"}
     end
@@ -45,16 +49,17 @@ defmodule AdventOfCode2023.Day2.Part1 do
   end
 
   def split(line) do
-    {id, data} = line
-    |> String.split(": ")
-    |> List.to_tuple()
+    {id, data} =
+      line
+      |> String.split(": ")
+      |> List.to_tuple()
 
-    id = 
+    id =
       id
       |> String.trim_leading("Game ")
       |> String.to_integer()
 
-    is_possible = 
+    is_possible =
       data
       |> String.split("; ")
       |> Enum.map(&process_draw/1)
@@ -72,7 +77,6 @@ defmodule AdventOfCode2023.Day2.Part1 do
   end
 end
 
-
 defmodule AdventOfCode2023.Day2.Part2 do
   import AdventOfCode2023.Day2.Utility
 
@@ -81,16 +85,17 @@ defmodule AdventOfCode2023.Day2.Part2 do
   end
 
   def split(line) do
-    {_, data} = line
-    |> String.split(": ")
-    |> List.to_tuple()
+    {_, data} =
+      line
+      |> String.split(": ")
+      |> List.to_tuple()
 
     data
-      |> String.split("; ")
-      |> Enum.map(&process_draw/1)
-      |> Enum.map(&Enum.into(&1, %{red: 0, green: 0, blue: 0}))
-      |> Enum.reduce(%{red: 0, green: 0, blue: 0}, &find_max/2)
-      |> find_power()
+    |> String.split("; ")
+    |> Enum.map(&process_draw/1)
+    |> Enum.map(&Enum.into(&1, %{red: 0, green: 0, blue: 0}))
+    |> Enum.reduce(%{red: 0, green: 0, blue: 0}, &find_max/2)
+    |> find_power()
   end
 
   def solve do

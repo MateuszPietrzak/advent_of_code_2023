@@ -1,6 +1,7 @@
 defmodule AdventOfCode2023.Day1.Utility do
   def get_file do
     {:ok, file} = File.open("assets/day1.in")
+
     IO.read(file, :eof)
     |> String.split("\n", trim: true)
   end
@@ -11,6 +12,7 @@ defmodule AdventOfCode2023.Day1.Part1 do
 
   def solve do
     file = Utility.get_file()
+
     file
     |> Enum.map(&String.to_charlist/1)
     |> Enum.map(fn list -> Enum.filter(list, fn c -> c >= ?0 and c <= ?9 end) end)
@@ -25,25 +27,34 @@ defmodule AdventOfCode2023.Day1.Part2 do
 
   def text_to_digits(x) do
     cond do
-      x == [] -> [] 
+      x == [] ->
+        []
 
-      List.starts_with?(x, 'one') -> 
+      List.starts_with?(x, ~c"one") ->
         with [_ | tail] <- x, do: [?1 | text_to_digits(tail)]
-      List.starts_with?(x, 'two') -> 
+
+      List.starts_with?(x, ~c"two") ->
         with [_ | tail] <- x, do: [?2 | text_to_digits(tail)]
-      List.starts_with?(x, 'three') -> 
+
+      List.starts_with?(x, ~c"three") ->
         with [_ | tail] <- x, do: [?3 | text_to_digits(tail)]
-      List.starts_with?(x, 'four') -> 
+
+      List.starts_with?(x, ~c"four") ->
         with [_ | tail] <- x, do: [?4 | text_to_digits(tail)]
-      List.starts_with?(x, 'five') -> 
+
+      List.starts_with?(x, ~c"five") ->
         with [_ | tail] <- x, do: [?5 | text_to_digits(tail)]
-      List.starts_with?(x, 'six') -> 
+
+      List.starts_with?(x, ~c"six") ->
         with [_ | tail] <- x, do: [?6 | text_to_digits(tail)]
-      List.starts_with?(x, 'seven') -> 
+
+      List.starts_with?(x, ~c"seven") ->
         with [_ | tail] <- x, do: [?7 | text_to_digits(tail)]
-      List.starts_with?(x, 'eight') -> 
+
+      List.starts_with?(x, ~c"eight") ->
         with [_ | tail] <- x, do: [?8 | text_to_digits(tail)]
-      List.starts_with?(x, 'nine') -> 
+
+      List.starts_with?(x, ~c"nine") ->
         with [_ | tail] <- x, do: [?9 | text_to_digits(tail)]
 
       true ->
@@ -51,9 +62,9 @@ defmodule AdventOfCode2023.Day1.Part2 do
     end
   end
 
-
   def solve do
     file = Utility.get_file()
+
     file
     |> Enum.map(&String.to_charlist/1)
     |> Enum.map(&text_to_digits/1)
