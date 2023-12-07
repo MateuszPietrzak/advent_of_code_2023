@@ -95,26 +95,44 @@ defmodule AdventOfCode2023.Day5.Part2 do
         ]
 
       range[:beginning] >= transform[:source] ->
-          [[
+        [
+          [
             beginning: range[:beginning] + transform[:difference],
             end: transform[:source] + transform[:length] - 1 + transform[:difference]
-          ]] ++
-          split_with_transformations([beginning: transform[:source] + transform[:length], end: range[:end]], tail)
+          ]
+        ] ++
+          split_with_transformations(
+            [beginning: transform[:source] + transform[:length], end: range[:end]],
+            tail
+          )
 
       range[:end] < transform[:source] + transform[:length] ->
-          split_with_transformations([beginning: range[:beginning], end: transform[:source] - 1], tail) ++
-          [[
-            beginning: transform[:source] + transform[:difference],
-            end: range[:end] + transform[:difference]
-          ]]
+        split_with_transformations(
+          [beginning: range[:beginning], end: transform[:source] - 1],
+          tail
+        ) ++
+          [
+            [
+              beginning: transform[:source] + transform[:difference],
+              end: range[:end] + transform[:difference]
+            ]
+          ]
 
       true ->
-          split_with_transformations([beginning: range[:beginning], end: transform[:source] - 1], tail) ++
-          [[
-            beginning: transform[:source] + transform[:difference],
-            end: transform[:source] + transform[:length] - 1 + transform[:difference]
-          ]] ++
-          split_with_transformations([beginning: transform[:source] + transform[:length], end: range[:end]], tail)
+        split_with_transformations(
+          [beginning: range[:beginning], end: transform[:source] - 1],
+          tail
+        ) ++
+          [
+            [
+              beginning: transform[:source] + transform[:difference],
+              end: transform[:source] + transform[:length] - 1 + transform[:difference]
+            ]
+          ] ++
+          split_with_transformations(
+            [beginning: transform[:source] + transform[:length], end: range[:end]],
+            tail
+          )
     end
   end
 
@@ -122,6 +140,7 @@ defmodule AdventOfCode2023.Day5.Part2 do
 
   defp get_final_ranges(ranges, [transformation | tail]) do
     IO.inspect(ranges, label: "ranges")
+
     new_ranges =
       ranges
       |> Enum.reduce([], fn x, acc ->
