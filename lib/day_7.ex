@@ -15,11 +15,11 @@ defmodule AdventOfCode2023.Day7.Utility do
   def get_type_strength(hand) do
     grouped = Enum.sort(hand) |> Enum.chunk_by(fn x -> x end)
 
-    cond do
-      length(grouped) == 1 ->
+    case length(grouped) do
+      1 ->
         7
 
-      length(grouped) == 2 and (hd(grouped) |> length() == 1 or tl(grouped) |> length() == 1) ->
+      2 ->
         with [a, b] <- grouped do
           if(length(a) == 1 or length(b) == 1) do
             6
@@ -28,7 +28,7 @@ defmodule AdventOfCode2023.Day7.Utility do
           end
         end
 
-      length(grouped) == 3 ->
+      3 ->
         with [a, b, c] <- grouped do
           if(length(a) == 3 or length(b) == 3 or length(c) == 3) do
             4
@@ -37,10 +37,10 @@ defmodule AdventOfCode2023.Day7.Utility do
           end
         end
 
-      length(grouped) == 4 ->
+      4 ->
         2
 
-      true ->
+      _ ->
         1
     end
   end
@@ -100,7 +100,6 @@ defmodule AdventOfCode2023.Day7.Part1 do
   end
 end
 
-
 defmodule AdventOfCode2023.Day7.Part2 do
   import AdventOfCode2023.Day7.Utility
 
@@ -125,7 +124,8 @@ defmodule AdventOfCode2023.Day7.Part2 do
 
   def reduce_hand(hand) do
     index = Enum.find_index(hand, fn x -> x == ?J end)
-    list = [?A,?K,?Q,?T,?9,?8,?7,?6,?5,?4,?3,?2]
+    list = [?A, ?K, ?Q, ?T, ?9, ?8, ?7, ?6, ?5, ?4, ?3, ?2]
+
     if index == nil do
       get_type_strength(hand)
     else
