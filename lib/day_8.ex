@@ -16,6 +16,37 @@ defmodule AdventOfCode2023.Day8.Part1 do
   def count_steps(map, key, [direction | tail], directions_copy) do
     next_key = map[key][direction]
 
+    if next_key == "ZZZ" do
+      1
+    else
+      1 + count_steps(map, next_key, tail, directions_copy)
+    end
+  end
+
+  def solve do
+    [dir | map_string] = get_file()
+
+    directions = dir |> String.to_charlist() |> Enum.map(&if &1 == ?L, do: :left, else: :right)
+
+    map_string
+    |> Enum.map(&String.split(&1, [" = (", ", ", ")"], trim: true))
+    |> Enum.reduce(%{}, fn [key, left, right], acc ->
+    Map.put(acc, key, left: left, right: right)
+    end)
+    |> count_steps("AAA", directions, directions)
+
+  end
+end
+
+defmodule AdventOfCode2023.Day8.Part2 do
+  import AdventOfCode2023.Day8.Utility
+
+  def count_steps(map, key, [], directions_copy),
+    do: count_steps(map, key, directions_copy, directions_copy)
+
+  def count_steps(map, key, [direction | tail], directions_copy) do
+    next_key = map[key][direction]
+
     [_, _, a] = String.to_charlist(next_key)
 
     if a == ?Z do
