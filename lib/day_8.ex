@@ -43,12 +43,12 @@ defmodule AdventOfCode2023.Day8.Part1 do
         if a == ?A do
           count_steps(map, key, directions, directions)
         else
-          0
+          :not_start
         end
       end
     end)
     |> Enum.reduce(1, fn x, acc ->
-      if x == 0 do
+      if x == :not_start do
         acc
       else
         div(acc * x, Integer.gcd(acc, x))
