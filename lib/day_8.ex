@@ -31,10 +31,9 @@ defmodule AdventOfCode2023.Day8.Part1 do
     map_string
     |> Enum.map(&String.split(&1, [" = (", ", ", ")"], trim: true))
     |> Enum.reduce(%{}, fn [key, left, right], acc ->
-    Map.put(acc, key, left: left, right: right)
+      Map.put(acc, key, left: left, right: right)
     end)
     |> count_steps("AAA", directions, directions)
-
   end
 end
 
