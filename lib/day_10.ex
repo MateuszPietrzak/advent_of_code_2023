@@ -96,19 +96,24 @@ defmodule AdventOfCode2023.Day10.Part2 do
           file,
           position,
           cond do
-            position - line_length >= 0 and Enum.at(file, position - 1) in [?F, ?L, ?-] and Enum.at(file, position - line_length) in [?F, ?7, ?|] ->
+            position - line_length >= 0 and Enum.at(file, position - 1) in [?F, ?L, ?-] and
+                Enum.at(file, position - line_length) in [?F, ?7, ?|] ->
               ?j
 
-            position - line_length >= 0 and Enum.at(file, position + 1) in [?7, ?J, ?-] and Enum.at(file, position - line_length) in [?F, ?7, ?|] ->
+            position - line_length >= 0 and Enum.at(file, position + 1) in [?7, ?J, ?-] and
+                Enum.at(file, position - line_length) in [?F, ?7, ?|] ->
               ?l
 
-            Enum.at(file, position + 1) in [?7, ?J, ?-] and Enum.at(file, position + line_length) in [?L, ?J, ?|] ->
+            Enum.at(file, position + 1) in [?7, ?J, ?-] and
+                Enum.at(file, position + line_length) in [?L, ?J, ?|] ->
               ?f
 
-            position - 1 >= 0 and Enum.at(file, position - 1) in [?F, ?L, ?-] and Enum.at(file, position + line_length) in [?L, ?J, ?|] ->
+            position - 1 >= 0 and Enum.at(file, position - 1) in [?F, ?L, ?-] and
+                Enum.at(file, position + line_length) in [?L, ?J, ?|] ->
               ?s
 
-            position - line_length >= 0 and Enum.at(file, position - line_length) in [?7, ?F, ?|] and Enum.at(file, position + line_length) in [?L, ?J, ?|] ->
+            position - line_length >= 0 and Enum.at(file, position - line_length) in [?7, ?F, ?|] and
+                Enum.at(file, position + line_length) in [?L, ?J, ?|] ->
               ?i
 
             true ->
@@ -128,7 +133,12 @@ defmodule AdventOfCode2023.Day10.Part2 do
     if Enum.at(file, current_position) == ?S do
       cond do
         current_position - 1 >= 0 and Enum.at(file, current_position - 1) in [?F, ?L, ?-] ->
-          dfs(mark(file, current_position, line_length), current_position - 1, current_position, line_length)
+          dfs(
+            mark(file, current_position, line_length),
+            current_position - 1,
+            current_position,
+            line_length
+          )
 
         current_position - line_length >= 0 and
             Enum.at(file, current_position - line_length) in [?F, ?7, ?|] ->
@@ -140,7 +150,12 @@ defmodule AdventOfCode2023.Day10.Part2 do
           )
 
         Enum.at(file, current_position + 1) in [?7, ?J, ?-] ->
-          dfs(mark(file, current_position, line_length), current_position + 1, current_position, line_length)
+          dfs(
+            mark(file, current_position, line_length),
+            current_position + 1,
+            current_position,
+            line_length
+          )
 
         Enum.at(file, current_position + line_length) in [?L, ?J, ?|] ->
           dfs(
@@ -158,7 +173,12 @@ defmodule AdventOfCode2023.Day10.Part2 do
         current_position - 1 != came_from and current_position >= 0 and
           Enum.at(file, current_position - 1) in [?F, ?L, ?-] and
             Enum.at(file, current_position) in [?-, ?J, ?7] ->
-          dfs(mark(file, current_position, line_length), current_position - 1, current_position, line_length)
+          dfs(
+            mark(file, current_position, line_length),
+            current_position - 1,
+            current_position,
+            line_length
+          )
 
         current_position - line_length != came_from and current_position - line_length >= 0 and
           Enum.at(file, current_position - line_length) in [?F, ?7, ?|] and
@@ -172,7 +192,12 @@ defmodule AdventOfCode2023.Day10.Part2 do
 
         current_position + 1 != came_from and Enum.at(file, current_position + 1) in [?7, ?J, ?-] and
             Enum.at(file, current_position) in [?F, ?L, ?-] ->
-          dfs(mark(file, current_position, line_length), current_position + 1, current_position, line_length)
+          dfs(
+            mark(file, current_position, line_length),
+            current_position + 1,
+            current_position,
+            line_length
+          )
 
         current_position + line_length != came_from and
           Enum.at(file, current_position + line_length) in [?L, ?J, ?|] and
@@ -219,13 +244,14 @@ defmodule AdventOfCode2023.Day10.Part2 do
       file
       |> Enum.find_index(fn x -> x == ?S end)
 
-    res = file
-    |> dfs(starting_position, nil, line_length)
-    |> List.to_string()
-    |> String.split("\n", trim: true)
+    res =
+      file
+      |> dfs(starting_position, nil, line_length)
+      |> List.to_string()
+      |> String.split("\n", trim: true)
 
     res
-    |> Enum.map(&calculate_score(String.to_charlist(&1),0,nil))
+    |> Enum.map(&calculate_score(String.to_charlist(&1), 0, nil))
     |> Enum.sum()
   end
 end
