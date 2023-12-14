@@ -20,24 +20,29 @@ defmodule AdventOfCode2023.Day13.Utility do
     if length(head) == 0 do
       []
     else
-      [ Enum.map(grid, fn [h | _] -> h end) |> Enum.reduce(0, fn x, acc -> 2 * acc + (if x == ?., do: 0, else: 1) end) |
-        Enum.map(grid, fn [_ | t] -> t end)
-      |> get_cols_hash(line_length)]
-
+      [
+        Enum.map(grid, fn [h | _] -> h end)
+        |> Enum.reduce(0, fn x, acc -> 2 * acc + if x == ?., do: 0, else: 1 end)
+        | Enum.map(grid, fn [_ | t] -> t end)
+          |> get_cols_hash(line_length)
+      ]
     end
   end
-
 end
 
 defmodule AdventOfCode2023.Day13.Part1 do
   import AdventOfCode2023.Day13.Utility
 
-
   def check_palindrome(list, ai, bi) do
     cond do
-      ai == 0 -> true
-      bi == length(list) + 1 -> true
-      true -> Enum.at(list, ai-1) == Enum.at(list, bi-1) && check_palindrome(list, ai-1, bi+1)
+      ai == 0 ->
+        true
+
+      bi == length(list) + 1 ->
+        true
+
+      true ->
+        Enum.at(list, ai - 1) == Enum.at(list, bi - 1) && check_palindrome(list, ai - 1, bi + 1)
     end
   end
 
@@ -70,13 +75,15 @@ defmodule AdventOfCode2023.Day13.Part1 do
       parsed_grid
       |> Enum.map(&get_row_hash/1)
 
-    col_res = cols_hash
-    |> Enum.zip(1..length(cols_hash))
-    |> get_potential_palindromes(cols_hash)
+    col_res =
+      cols_hash
+      |> Enum.zip(1..length(cols_hash))
+      |> get_potential_palindromes(cols_hash)
 
-    row_res = rows_hash
-    |> Enum.zip(1..length(rows_hash))
-    |> get_potential_palindromes(rows_hash)
+    row_res =
+      rows_hash
+      |> Enum.zip(1..length(rows_hash))
+      |> get_potential_palindromes(rows_hash)
 
     col_res + row_res * 100
   end
@@ -94,7 +101,7 @@ defmodule AdventOfCode2023.Day13.Part2 do
   def count_bits(0), do: 0
 
   def count_bits(number) do
-    rem(number,2) + count_bits(div(number, 2))
+    rem(number, 2) + count_bits(div(number, 2))
   end
 
   def one_bit_on?(number) do
@@ -103,11 +110,20 @@ defmodule AdventOfCode2023.Day13.Part2 do
 
   def check_palindrome(list, ai, bi, found_smudge) do
     cond do
-      ai == 0 -> found_smudge
-      bi == length(list) + 1 -> found_smudge
-      Enum.at(list, ai-1) == Enum.at(list, bi-1) -> check_palindrome(list, ai-1, bi+1, found_smudge)
-      !found_smudge && Bitwise.bxor(Enum.at(list, ai-1), Enum.at(list, bi-1)) |> one_bit_on?() -> check_palindrome(list, ai-1, bi+1, true)
-      true -> false
+      ai == 0 ->
+        found_smudge
+
+      bi == length(list) + 1 ->
+        found_smudge
+
+      Enum.at(list, ai - 1) == Enum.at(list, bi - 1) ->
+        check_palindrome(list, ai - 1, bi + 1, found_smudge)
+
+      !found_smudge && Bitwise.bxor(Enum.at(list, ai - 1), Enum.at(list, bi - 1)) |> one_bit_on?() ->
+        check_palindrome(list, ai - 1, bi + 1, true)
+
+      true ->
+        false
     end
   end
 
@@ -140,13 +156,15 @@ defmodule AdventOfCode2023.Day13.Part2 do
       parsed_grid
       |> Enum.map(&get_row_hash/1)
 
-    col_res = cols_hash
-    |> Enum.zip(1..length(cols_hash))
-    |> get_potential_palindromes(cols_hash)
+    col_res =
+      cols_hash
+      |> Enum.zip(1..length(cols_hash))
+      |> get_potential_palindromes(cols_hash)
 
-    row_res = rows_hash
-    |> Enum.zip(1..length(rows_hash))
-    |> get_potential_palindromes(rows_hash)
+    row_res =
+      rows_hash
+      |> Enum.zip(1..length(rows_hash))
+      |> get_potential_palindromes(rows_hash)
 
     col_res + row_res * 100
   end
