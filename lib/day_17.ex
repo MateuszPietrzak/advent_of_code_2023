@@ -13,7 +13,7 @@ defmodule AdventOfCode2023.Day17.Part1 do
   import AdventOfCode2023.Day17.Utility
 
   def get_next_pos(map) do
-    {key, _} = Enum.min_by(map, fn {{_,_,_,_,res}, _} -> res end)
+    {key, _} = Enum.min_by(map, fn {{_, _, _, _, res}, _} -> res end)
     key
   end
 
@@ -23,7 +23,17 @@ defmodule AdventOfCode2023.Day17.Part1 do
 
       if map_size(next_map) > 0 do
         {next_row, next_col, next_direction, next_straight, next_res} = get_next_pos(next_map)
-        find_path(file, next_row, next_col, next_direction, next_straight, next_res, next_map, odl)
+
+        find_path(
+          file,
+          next_row,
+          next_col,
+          next_direction,
+          next_straight,
+          next_res,
+          next_map,
+          odl
+        )
       else
         odl
       end
@@ -34,7 +44,17 @@ defmodule AdventOfCode2023.Day17.Part1 do
 
         if map_size(next_map) > 0 do
           {next_row, next_col, next_direction, next_straight, next_res} = get_next_pos(next_map)
-          find_path(file, next_row, next_col, next_direction, next_straight, next_res, next_map, odl)
+
+          find_path(
+            file,
+            next_row,
+            next_col,
+            next_direction,
+            next_straight,
+            next_res,
+            next_map,
+            odl
+          )
         else
           odl
         end
@@ -73,7 +93,17 @@ defmodule AdventOfCode2023.Day17.Part1 do
 
         if map_size(next_map) > 0 do
           {next_row, next_col, next_direction, next_straight, next_res} = get_next_pos(next_map)
-          find_path(file, next_row, next_col, next_direction, next_straight, next_res, next_map, new_odl)
+
+          find_path(
+            file,
+            next_row,
+            next_col,
+            next_direction,
+            next_straight,
+            next_res,
+            next_map,
+            new_odl
+          )
         else
           new_odl
         end
@@ -108,7 +138,7 @@ defmodule AdventOfCode2023.Day17.Part2 do
   import AdventOfCode2023.Day17.Utility
 
   def get_next_pos(map) do
-    {key, _} = Enum.min_by(map, fn {{_,_,_,_,res}, _} -> res end)
+    {key, _} = Enum.min_by(map, fn {{_, _, _, _, res}, _} -> res end)
     key
   end
 
@@ -118,7 +148,17 @@ defmodule AdventOfCode2023.Day17.Part2 do
 
       if map_size(next_map) > 0 do
         {next_row, next_col, next_direction, next_straight, next_res} = get_next_pos(next_map)
-        find_path(file, next_row, next_col, next_direction, next_straight, next_res, next_map, odl)
+
+        find_path(
+          file,
+          next_row,
+          next_col,
+          next_direction,
+          next_straight,
+          next_res,
+          next_map,
+          odl
+        )
       else
         odl
       end
@@ -129,7 +169,17 @@ defmodule AdventOfCode2023.Day17.Part2 do
 
         if map_size(next_map) > 0 do
           {next_row, next_col, next_direction, next_straight, next_res} = get_next_pos(next_map)
-          find_path(file, next_row, next_col, next_direction, next_straight, next_res, next_map, odl)
+
+          find_path(
+            file,
+            next_row,
+            next_col,
+            next_direction,
+            next_straight,
+            next_res,
+            next_map,
+            odl
+          )
         else
           odl
         end
@@ -172,7 +222,17 @@ defmodule AdventOfCode2023.Day17.Part2 do
 
         if map_size(next_map) > 0 do
           {next_row, next_col, next_direction, next_straight, next_res} = get_next_pos(next_map)
-          find_path(file, next_row, next_col, next_direction, next_straight, next_res, next_map, new_odl)
+
+          find_path(
+            file,
+            next_row,
+            next_col,
+            next_direction,
+            next_straight,
+            next_res,
+            next_map,
+            new_odl
+          )
         else
           new_odl
         end
@@ -189,7 +249,6 @@ defmodule AdventOfCode2023.Day17.Part2 do
 
     row = length(file) - 1
     col = length(hd(file)) - 1
-
 
     Enum.min([
       Enum.min(Enum.map(4..10, &Map.get(map, {row, col, :right, &1}))),
