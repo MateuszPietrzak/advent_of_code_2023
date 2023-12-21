@@ -10,3 +10,5 @@ iex> AdventOfCode2023.Day<X>.Part<Y>.solve
 ```
 
 To change input modify the corresponging `assets/day<X>.in` file
+
+Sadly no day 20 solution is present. Not having a global state meant much pain. Done in c++, though maybe someday I will revisit it.
