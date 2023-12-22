@@ -98,7 +98,7 @@ defmodule AdventOfCode2023.Day21.Part2 do
 
     size = 130
     halfsize = div(size, 2)
-    radius = 202300
+    radius = 202_300
     infinity = 1_000_000_000
 
     odd_rhombus =
