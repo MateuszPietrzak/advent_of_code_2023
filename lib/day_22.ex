@@ -97,13 +97,20 @@ defmodule AdventOfCode2023.Day22.Part2 do
       0
     else
       {{:value, key}, new_queue} = :queue.out(queue)
+
       if Map.get(visited, key) != nil do
-        cascade_down(up, new_queue, visited) 
-      else 
+        cascade_down(up, new_queue, visited)
+      else
         # IO.inspect(key, label: "in")
         reject_self = Enum.reject(up, fn {k, _} -> k == key end)
-        new_up = Enum.map(reject_self, fn {k, v} -> {k, Enum.reject(v, &(&1==key))} end)# |> IO.inspect(label: "new up")
-        next_queue = Enum.reduce(new_up, new_queue, fn {k, v}, acc -> if length(v) == 0, do: :queue.in(k, acc), else: acc end)
+        # |> IO.inspect(label: "new up")
+        new_up = Enum.map(reject_self, fn {k, v} -> {k, Enum.reject(v, &(&1 == key))} end)
+
+        next_queue =
+          Enum.reduce(new_up, new_queue, fn {k, v}, acc ->
+            if length(v) == 0, do: :queue.in(k, acc), else: acc
+          end)
+
         1 + cascade_down(new_up, next_queue, Map.put(visited, key, true))
       end
     end
@@ -111,10 +118,15 @@ defmodule AdventOfCode2023.Day22.Part2 do
 
   def count_falling(index, up) do
     reject_self = Enum.reject(up, fn {k, _} -> k == index end)
-    new_up = Enum.map(reject_self, fn {k, v} -> {k, Enum.reject(v, &(&1==index))} end)# |> IO.inspect(label: "new up")
+    # |> IO.inspect(label: "new up")
+    new_up = Enum.map(reject_self, fn {k, v} -> {k, Enum.reject(v, &(&1 == index))} end)
     # score_add = Enum.count(new_up, fn {_, v} -> length(v) == 0 end)
-    queue = Enum.reduce(new_up, :queue.new(), fn {k, v}, acc -> if length(v) == 0, do: :queue.in(k, acc), else: acc end)
-    cascade_down(new_up, queue, %{}) 
+    queue =
+      Enum.reduce(new_up, :queue.new(), fn {k, v}, acc ->
+        if length(v) == 0, do: :queue.in(k, acc), else: acc
+      end)
+
+    cascade_down(new_up, queue, %{})
   end
 
   def solve do
