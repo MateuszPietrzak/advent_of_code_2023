@@ -134,7 +134,6 @@ defmodule AdventOfCode2023.Day23.Part2 do
   end
 
   def dfs(junctions, row, col, from_row, from_col, depth, tar_row, tar_col) do
-
     if row == from_row and col == from_col do
       0
     else
